@@ -1,0 +1,18 @@
+@model IEnumerable<Player>
+@{ ViewData["Title"] = "Players"; }
+<h1>Players</h1>
+<table class="data">
+    <thead><tr><th>Username</th><th class="num">Balance</th><th>Status</th><th>Joined</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var p in Model)
+    {
+        <tr>
+            <td>@p.Username</td>
+            <td class="num">@p.Balance.ToString("N2")</td>
+            <td>@(p.IsBlocked ? "Blocked" : "Active")</td>
+            <td>@p.CreatedAt.ToString("yyyy-MM-dd")</td>
+            <td><a asp-action="Detail" asp-route-id="@p.Id">Open</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,19 @@
+@model IEnumerable<Game>
+@{ ViewData["Title"] = "Games"; }
+<h1>Games</h1>
+<table class="data">
+    <thead><tr><th>Game</th><th>Controller</th><th class="num">Min</th><th class="num">Max</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var g in Model)
+    {
+        <tr>
+            <td>@g.Name</td>
+            <td>@g.Slug</td>
+            <td class="num">@g.MinBet.ToString("N2")</td>
+            <td class="num">@g.MaxBet.ToString("N2")</td>
+            <td>@(g.IsActive ? "Open" : "Closed")</td>
+            <td><a asp-action="Edit" asp-route-id="@g.Id">Edit</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

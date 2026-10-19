@@ -1,0 +1,33 @@
+@model IndexViewModel
+@{ ViewData["Title"] = "Lobby"; }
+<h1>Pick a table</h1>
+<p>You have <strong>@Model.Player.Balance.ToString("N2")</strong> credits.</p>
+
+<div class="games">
+@foreach (var g in Model.Games)
+{
+    <a class="game" asp-area="" asp-controller="@g.Slug" asp-action="Play">
+        <h2>@g.Name</h2>
+        <p>@g.Description</p>
+        <small>Bets @g.MinBet.ToString("N0") to @g.MaxBet.ToString("N0")</small>
+    </a>
+}
+</div>
+
+<h2>Your last bets</h2>
+@if (!Model.RecentBets.Any())
+{
+    <p>No bets yet. Choose a table to place your first one.</p>
+}
+else
+{
+    <table class="data">
+        <thead><tr><th>Game</th><th>Result</th><th class="num">Bet</th><th class="num">Returned</th></tr></thead>
+        <tbody>
+        @foreach (var b in Model.RecentBets)
+        {
+            <tr><td>@b.GameName</td><td>@b.Result</td><td class="num">@b.Amount.ToString("N2")</td><td class="num @(b.Payout > 0 ? "pos" : "neg")">@b.Payout.ToString("N2")</td></tr>
+        }
+        </tbody>
+    </table>
+}

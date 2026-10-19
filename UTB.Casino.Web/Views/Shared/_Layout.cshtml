@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - UTB Casino</title>
+    <link rel="icon" href="~/favicon.ico" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+<header class="topbar">
+    <a class="brand" asp-area="" asp-controller="Home" asp-action="Index">UTB Casino</a>
+    <nav>
+        <a asp-area="" asp-controller="Slots" asp-action="Play">Slots</a>
+        <a asp-area="" asp-controller="Roulette" asp-action="Play">Roulette</a>
+        <a asp-area="" asp-controller="Blackjack" asp-action="Play">Blackjack</a>
+        <a asp-area="Admin" asp-controller="Game" asp-action="Select">Admin</a>
+    </nav>
+    <a class="balance" asp-area="" asp-controller="Wallet" asp-action="Index">
+        <span>@DatabaseFake.CurrentPlayer.Username</span>
+        <strong>@DatabaseFake.CurrentPlayer.Balance.ToString("N2")</strong>
+    </a>
+</header>
+<main>@RenderBody()</main>
+<footer>Simulation only. Credits have no cash value. <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></footer>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

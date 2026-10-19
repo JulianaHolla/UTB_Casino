@@ -1,0 +1,19 @@
+@model SlotsViewModel
+@{ ViewData["Title"] = Model.Game.Name; }
+<h1>@Model.Game.Name</h1>
+@if (!string.IsNullOrEmpty(Model.Message)) { <p class="notice @(Model.IsError ? "error" : Model.Payout > 0 ? "win" : "info")">@Model.Message</p> }
+
+<div class="reels" id="reels" data-spin="@(Model.HasResult ? "true" : "false")">
+    @foreach (var symbol in Model.Reels) { <span class="reel" data-final="@symbol">@symbol</span> }
+</div>
+
+<form asp-action="Play" method="post" class="stack">
+    <div class="form-group">
+        <label for="Amount">Bet (@Model.Game.MinBet.ToString("N0") to @Model.Game.MaxBet.ToString("N0"))</label>
+        <input id="Amount" name="Amount" type="number" step="0.01" class="form-control" value="@Model.Amount" />
+    </div>
+    <button type="submit" class="btn btn-primary">Spin</button>
+</form>
+<p class="hint">Three matching symbols pay 5x to 100x. Two cherries pay 2x.</p>
+
+@section Scripts { <script src="~/js/slot-animation.js" asp-append-version="true"></script> }

@@ -1,0 +1,17 @@
+@model IList<Transaction>
+@{
+    ViewData["Title"] = "Transactions";
+    var players = (Dictionary<int, string>)ViewBag.Players;
+}
+<h1>Transactions</h1>
+<table class="data">
+    <thead><tr><th>Date</th><th>Player</th><th>Type</th><th>Note</th><th class="num">Amount</th></tr></thead>
+    <tbody>
+    @foreach (var t in Model)
+    {
+        <tr><td>@t.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td><td>@players.GetValueOrDefault(t.PlayerId, "?")</td>
+            <td>@t.Type</td><td>@t.Note</td>
+            <td class="num @(t.Amount < 0 ? "neg" : "pos")">@t.Amount.ToString("+0.00;-0.00")</td></tr>
+    }
+    </tbody>
+</table>
