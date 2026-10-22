@@ -1,0 +1,20 @@
+@model GameEditViewModel
+<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+<input type="hidden" asp-for="Id" />
+<input type="hidden" asp-for="ImagePath" />
+<div class="mb-3"><label asp-for="Name" class="form-label"></label><input asp-for="Name" class="form-control" /><span asp-validation-for="Name" class="text-danger"></span></div>
+<div class="mb-3"><label asp-for="Slug" class="form-label"></label>
+    @if (Model.Id == 0) { <select asp-for="Slug" asp-items="Model.Slugs" class="form-select"></select> }
+    else { <input asp-for="Slug" class="form-control" readonly /> }
+    <span asp-validation-for="Slug" class="text-danger"></span></div>
+<div class="mb-3"><label asp-for="Description" class="form-label"></label><input asp-for="Description" class="form-control" /><span asp-validation-for="Description" class="text-danger"></span></div>
+<div class="row">
+    <div class="col-6 mb-3"><label asp-for="MinBet" class="form-label"></label><input asp-for="MinBet" type="number" step="0.01" class="form-control" /><span asp-validation-for="MinBet" class="text-danger"></span></div>
+    <div class="col-6 mb-3"><label asp-for="MaxBet" class="form-label"></label><input asp-for="MaxBet" type="number" step="0.01" class="form-control" /><span asp-validation-for="MaxBet" class="text-danger"></span></div>
+</div>
+<div class="mb-3"><label asp-for="Image" class="form-label"></label>
+    @if (!string.IsNullOrEmpty(Model.ImagePath)) { <div class="mb-2"><img src="@Model.ImagePath" alt="Current image" class="game-img-preview" /></div> }
+    <input asp-for="Image" type="file" accept="image/*" class="form-control" /></div>
+<div class="form-check mb-3"><input asp-for="IsActive" class="form-check-input" /><label asp-for="IsActive" class="form-check-label"></label></div>
+<button type="submit" class="btn btn-brass">Save</button>
+<a asp-action="Select" class="btn btn-link">Cancel</a>

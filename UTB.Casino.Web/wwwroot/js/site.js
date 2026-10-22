@@ -1,1 +1,1 @@
-// Shared site behaviour (kept intentionally small).
+// Shared site behaviour (intentionally small).

@@ -1,0 +1,11 @@
+@model TransactionEditViewModel
+@{ ViewData["Title"] = "Edit transaction"; }
+<h1>Edit transaction</h1>
+<p class="text-body-secondary">@Model.Summary</p>
+<form asp-action="Edit" method="post" class="bet-form">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <input type="hidden" asp-for="Id" /><input type="hidden" asp-for="Summary" />
+    <div class="mb-3"><label asp-for="Note" class="form-label"></label><input asp-for="Note" class="form-control" /><span asp-validation-for="Note" class="text-danger"></span></div>
+    <button type="submit" class="btn btn-brass">Save</button> <a asp-action="Select" class="btn btn-link">Cancel</a>
+</form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

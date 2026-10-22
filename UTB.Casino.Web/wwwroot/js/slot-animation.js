@@ -5,17 +5,11 @@
   if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   var symbols = ["🍒", "🍋", "🔔", "⭐", "7️⃣"];
-  var reels = Array.prototype.slice.call(box.querySelectorAll(".reel"));
-
-  reels.forEach(function (reel, i) {
+  Array.prototype.slice.call(box.querySelectorAll(".reel")).forEach(function (reel, i) {
     var stopAt = Date.now() + 600 + i * 350;
     var timer = setInterval(function () {
-      if (Date.now() >= stopAt) {
-        clearInterval(timer);
-        reel.textContent = reel.dataset.final;
-      } else {
-        reel.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-      }
+      if (Date.now() >= stopAt) { clearInterval(timer); reel.textContent = reel.dataset.final; }
+      else reel.textContent = symbols[Math.floor(Math.random() * symbols.length)];
     }, 70);
   });
 })();

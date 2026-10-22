@@ -1,36 +1,33 @@
 @model RouletteViewModel
-@{
-    ViewData["Title"] = Model.Game.Name;
-    var types = new[] { ("red", "Red (2x)"), ("black", "Black (2x)"), ("odd", "Odd (2x)"), ("even", "Even (2x)"),
-                        ("low", "1 to 18 (2x)"), ("high", "19 to 36 (2x)"), ("number", "Single number (36x)") };
-}
+@{ ViewData["Title"] = Model.Game.Name; }
 <h1>@Model.Game.Name</h1>
-@if (!string.IsNullOrEmpty(Model.Message)) { <p class="notice @(Model.IsError ? "error" : Model.Payout > 0 ? "win" : "info")">@Model.Message</p> }
+@if (!string.IsNullOrEmpty(Model.Message)) { <div class="alert @(Model.IsError ? "alert-danger" : Model.Result?.Payout > 0 ? "alert-success" : "alert-secondary")">@Model.Message</div> }
 
-@if (Model.Result.HasValue)
+@if (Model.Result != null)
 {
-    <div class="ball @Model.ResultColor" id="roulette-result" data-number="@Model.Result">@Model.Result</div>
+    <div class="ball @Model.Result.Color" id="roulette-result" data-number="@Model.Result.Number">@Model.Result.Number</div>
 }
 
-<form asp-action="Play" method="post" class="stack">
-    <div class="form-group">
-        <label for="BetType">Bet on</label>
-        <select id="BetType" name="BetType" class="form-control">
-            @foreach (var (value, label) in types)
-            {
-                <option value="@value" selected="@(Model.BetType == value)">@label</option>
-            }
-        </select>
+<form asp-action="Play" method="post" class="bet-form">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <div class="mb-3">
+        <label for="BetType" class="form-label">Bet on</label>
+        <select id="BetType" name="BetType" asp-items="RouletteViewModel.BetTypes" class="form-select"></select>
     </div>
-    <div class="form-group" id="number-group">
-        <label for="Number">Number (0 to 36)</label>
+    <div class="mb-3" id="number-group">
+        <label for="Number" class="form-label">Number (0 to 36)</label>
         <input id="Number" name="Number" type="number" min="0" max="36" class="form-control" value="@Model.Number" />
+        <span asp-validation-for="Number" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label for="Amount">Bet (@Model.Game.MinBet.ToString("N0") to @Model.Game.MaxBet.ToString("N0"))</label>
+    <div class="mb-3">
+        <label for="Amount" class="form-label">Bet (@Model.Game.MinBet.ToString("N0") to @Model.Game.MaxBet.ToString("N0"))</label>
         <input id="Amount" name="Amount" type="number" step="0.01" class="form-control" value="@Model.Amount" />
     </div>
-    <button type="submit" class="btn btn-primary">Spin the wheel</button>
+    <button type="submit" class="btn btn-brass">Spin the wheel</button>
 </form>
 
-@section Scripts { <script src="~/js/roulette-wheel.js" asp-append-version="true"></script> }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>window.selectedBetType = "@Model.BetType";</script>
+    <script src="~/js/roulette-wheel.js" asp-append-version="true"></script>
+}

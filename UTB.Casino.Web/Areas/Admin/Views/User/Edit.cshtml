@@ -1,0 +1,28 @@
+@model UserEditViewModel
+@{ ViewData["Title"] = "Edit user"; }
+<h1>Edit @Model.UserName</h1>
+<div class="row g-4">
+<div class="col-lg-6">
+<form asp-action="Edit" method="post">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <input type="hidden" asp-for="Id" /><input type="hidden" asp-for="Balance" />
+    <div class="mb-3"><label asp-for="UserName" class="form-label"></label><input asp-for="UserName" class="form-control" /><span asp-validation-for="UserName" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="Email" class="form-label"></label><input asp-for="Email" class="form-control" /><span asp-validation-for="Email" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="DisplayName" class="form-label"></label><input asp-for="DisplayName" class="form-control" /><span asp-validation-for="DisplayName" class="text-danger"></span></div>
+    <div class="mb-3"><label asp-for="Role" class="form-label"></label><select asp-for="Role" asp-items="Model.RoleItems" class="form-select"></select></div>
+    <div class="form-check mb-3"><input asp-for="IsBlocked" class="form-check-input" /><label asp-for="IsBlocked" class="form-check-label"></label></div>
+    <p class="small text-body-secondary">Passwords and password hashes cannot be changed here.</p>
+    <button type="submit" class="btn btn-brass">Save</button> <a asp-action="Select" class="btn btn-link">Cancel</a>
+</form>
+</div>
+<div class="col-lg-6">
+    <h2 class="h5">Balance: @Model.Balance.ToString("N2")</h2>
+    <form asp-action="Adjust" method="post">
+        <input type="hidden" name="UserId" value="@Model.Id" />
+        <div class="mb-3"><label for="Amount" class="form-label">Amount (negative removes credits)</label><input id="Amount" name="Amount" type="number" step="0.01" class="form-control" required /></div>
+        <div class="mb-3"><label for="Note" class="form-label">Reason</label><input id="Note" name="Note" maxlength="200" class="form-control" /></div>
+        <button type="submit" class="btn btn-outline-light">Apply adjustment</button>
+    </form>
+</div>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

@@ -1,0 +1,14 @@
+@model IList<UserDto>
+@{ ViewData["Title"] = "Users"; }
+<h1>Users</h1>
+<div class="table-responsive"><table class="table align-middle">
+    <thead><tr><th>Username</th><th>Email</th><th>Role</th><th class="text-end">Balance</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var u in Model)
+    {
+        <tr><td>@u.UserName</td><td>@u.Email</td><td>@u.Role</td><td class="text-end">@u.Balance.ToString("N2")</td>
+            <td>@(u.IsBlocked ? "Blocked" : "Active")</td>
+            <td class="text-end"><a class="btn btn-sm btn-outline-light" asp-action="Edit" asp-route-id="@u.Id">Edit</a></td></tr>
+    }
+    </tbody>
+</table></div>

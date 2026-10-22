@@ -1,19 +1,24 @@
 @model SlotsViewModel
 @{ ViewData["Title"] = Model.Game.Name; }
 <h1>@Model.Game.Name</h1>
-@if (!string.IsNullOrEmpty(Model.Message)) { <p class="notice @(Model.IsError ? "error" : Model.Payout > 0 ? "win" : "info")">@Model.Message</p> }
+@if (!string.IsNullOrEmpty(Model.Message)) { <div class="alert @(Model.IsError ? "alert-danger" : Model.Payout > 0 ? "alert-success" : "alert-secondary")">@Model.Message</div> }
 
 <div class="reels" id="reels" data-spin="@(Model.HasResult ? "true" : "false")">
     @foreach (var symbol in Model.Reels) { <span class="reel" data-final="@symbol">@symbol</span> }
 </div>
 
-<form asp-action="Play" method="post" class="stack">
-    <div class="form-group">
-        <label for="Amount">Bet (@Model.Game.MinBet.ToString("N0") to @Model.Game.MaxBet.ToString("N0"))</label>
-        <input id="Amount" name="Amount" type="number" step="0.01" class="form-control" value="@Model.Amount" />
+<form asp-action="Play" method="post" class="bet-form">
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+    <div class="mb-3">
+        <label for="Amount" class="form-label">Bet (@Model.Game.MinBet.ToString("N0") to @Model.Game.MaxBet.ToString("N0"))</label>
+        <input id="Amount" name="Amount" type="number" step="0.01" class="form-control" value="@Model.Amount" data-val="true" data-val-required="Enter a bet." />
+        <span asp-validation-for="Amount" class="text-danger"></span>
     </div>
-    <button type="submit" class="btn btn-primary">Spin</button>
+    <button type="submit" class="btn btn-brass">Spin</button>
 </form>
-<p class="hint">Three matching symbols pay 5x to 100x. Two cherries pay 2x.</p>
+<p class="small text-body-secondary mt-3">Three matching symbols pay 5x to 100x. Two cherries pay 2x.</p>
 
-@section Scripts { <script src="~/js/slot-animation.js" asp-append-version="true"></script> }
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/slot-animation.js" asp-append-version="true"></script>
+}
