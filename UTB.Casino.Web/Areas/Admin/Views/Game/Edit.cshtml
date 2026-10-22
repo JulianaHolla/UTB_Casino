@@ -1,19 +1,5 @@
-@model Game
+@model GameEditViewModel
 @{ ViewData["Title"] = "Edit game"; }
-<h1>Edit @Model.Slug</h1>
-<div asp-validation-summary="All" class="notice error"></div>
-<form asp-action="Edit" method="post" class="stack">
-    <input type="hidden" name="Id" value="@Model.Id" />
-    <div class="form-group"><label for="Name">Name</label>
-        <input id="Name" name="Name" class="form-control" value="@Model.Name" /></div>
-    <div class="form-group"><label for="Description">Description</label>
-        <input id="Description" name="Description" class="form-control" value="@Model.Description" /></div>
-    <div class="form-group"><label for="MinBet">Min bet</label>
-        <input id="MinBet" name="MinBet" type="number" step="0.01" class="form-control" value="@Model.MinBet" /></div>
-    <div class="form-group"><label for="MaxBet">Max bet</label>
-        <input id="MaxBet" name="MaxBet" type="number" step="0.01" class="form-control" value="@Model.MaxBet" /></div>
-    <div class="form-group check"><input id="IsActive" name="IsActive" type="checkbox" value="true" @(Model.IsActive ? "checked" : null) />
-        <input name="IsActive" type="hidden" value="false" /><label for="IsActive">Open for players</label></div>
-    <button type="submit" class="btn btn-primary">Save changes</button>
-    <a asp-action="Select" class="btn">Cancel</a>
-</form>
+<h1>Edit @Model.Name</h1>
+<form asp-action="Edit" method="post" enctype="multipart/form-data" class="bet-form"><partial name="_GameForm" model="Model" /></form>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

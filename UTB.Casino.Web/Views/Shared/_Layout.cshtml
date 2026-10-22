@@ -1,28 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] - UTB Casino</title>
     <link rel="icon" href="~/favicon.ico" />
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
-<body>
-<header class="topbar">
-    <a class="brand" asp-area="" asp-controller="Home" asp-action="Index">UTB Casino</a>
-    <nav>
-        <a asp-area="" asp-controller="Slots" asp-action="Play">Slots</a>
-        <a asp-area="" asp-controller="Roulette" asp-action="Play">Roulette</a>
-        <a asp-area="" asp-controller="Blackjack" asp-action="Play">Blackjack</a>
-        <a asp-area="Admin" asp-controller="Game" asp-action="Select">Admin</a>
-    </nav>
-    <a class="balance" asp-area="" asp-controller="Wallet" asp-action="Index">
-        <span>@DatabaseFake.CurrentPlayer.Username</span>
-        <strong>@DatabaseFake.CurrentPlayer.Balance.ToString("N2")</strong>
-    </a>
-</header>
-<main>@RenderBody()</main>
-<footer>Simulation only. Credits have no cash value. <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></footer>
+<body class="d-flex flex-column min-vh-100">
+<nav class="navbar navbar-expand-lg topbar">
+    <div class="container">
+        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UTB Casino</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav" aria-controls="nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="nav">
+            <ul class="navbar-nav me-auto">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Slots" asp-action="Play">Slots</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Roulette" asp-action="Play">Roulette</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Blackjack" asp-action="Play">Blackjack</a></li>
+                }
+                @if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Manager))
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Manage</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-area="Admin" asp-controller="Game" asp-action="Select">Games</a></li>
+                            <li><a class="dropdown-item" asp-area="Admin" asp-controller="Bet" asp-action="Select">Bets</a></li>
+                            <li><a class="dropdown-item" asp-area="Admin" asp-controller="Transaction" asp-action="Select">Transactions</a></li>
+                            @if (User.IsInRole(Roles.Admin))
+                            {
+                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Select">Users</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+            </ul>
+            <div class="d-flex align-items-center gap-3">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    @await Component.InvokeAsync("Balance")
+                    <span class="text-body-secondary">@User.Identity.Name</span>
+                    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="btn btn-sm btn-outline-secondary">Log out</button>
+                    </form>
+                }
+                else
+                {
+                    <a class="btn btn-sm btn-outline-light" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
+                    <a class="btn btn-sm btn-brass" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                }
+            </div>
+        </div>
+    </div>
+</nav>
+
+<main class="container flex-grow-1 py-4">
+    @if (TempData["Success"] is string ok) { <div class="alert alert-success">@ok</div> }
+    @if (TempData["Error"] is string err) { <div class="alert alert-danger">@err</div> }
+    @RenderBody()
+</main>
+
+<footer class="container py-3 small text-body-secondary border-top">
+    Simulation only. Credits have no cash value. <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+</footer>
+
+<script src="~/lib/jquery/jquery.min.js"></script>
+<script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>

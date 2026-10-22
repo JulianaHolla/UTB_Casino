@@ -1,9 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
+  <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../UTB.Casino.Application/UTB.Casino.Application.csproj" />
+    <ProjectReference Include="../UTB.Casino.Domain/UTB.Casino.Domain.csproj" />
+    <ProjectReference Include="../UTB.Casino.Infrastructure/UTB.Casino.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>

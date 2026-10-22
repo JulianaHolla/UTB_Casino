@@ -1,2 +1,3 @@
-@model Card
-<span class="card @(Model.IsRed ? "red" : "")">@Model.Rank@Model.Suit</span>
+@model CardDto
+@if (Model.IsHidden) { <span class="card-face back" aria-label="Hidden card"></span> }
+else { <span class="card-face @(Model.IsRed ? "red" : "")">@Model.Rank@Model.Suit</span> }

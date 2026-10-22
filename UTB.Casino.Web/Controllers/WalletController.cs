@@ -1,36 +1,37 @@
 using Microsoft.AspNetCore.Mvc;
-using UTB.Casino.Web.Models.Infrastructure.Database;
+using UTB.Casino.Application.Abstraction;
 using UTB.Casino.Web.Models.ViewModel;
 
 namespace UTB.Casino.Web.Controllers;
 
 public class WalletController : CasinoControllerBase
 {
-    private const decimal MaxDeposit = 1000m;
+    private readonly IWalletService _wallet;
+    private readonly ILogger<WalletController> _logger;
 
-    public IActionResult Index() => View(new WalletViewModel
+    public WalletController(IWalletService wallet, ILogger<WalletController> logger) { _wallet = wallet; _logger = logger; }
+
+    public async Task<IActionResult> Index() => View(new WalletViewModel
     {
-        Player = CurrentPlayer,
-        Transactions = DatabaseFake.Transactions.Where(t => t.PlayerId == CurrentPlayer.Id)
-                                                .OrderByDescending(t => t.CreatedAt).Take(20).ToList()
+        Balance = await _wallet.GetBalanceAsync(UserId),
+        Transactions = await _wallet.GetUserTransactionsAsync(UserId, 20)
     });
 
     [HttpGet]
-    public IActionResult Deposit() => View(new BetViewModel { Amount = 100 });
+    public IActionResult Deposit() => View(new DepositViewModel());
 
     [HttpPost]
-    public IActionResult Deposit(BetViewModel deposit)
+    public async Task<IActionResult> Deposit(DepositViewModel vm)
     {
-        var amount = Math.Round(deposit.Amount, 2);
-        if (CurrentPlayer.IsBlocked)
-            ModelState.AddModelError("", "Your account is blocked.");
-        else if (amount < 1 || amount > MaxDeposit)
-            ModelState.AddModelError("", $"Add between 1 and {MaxDeposit:N0} credits at a time.");
+        if (!ModelState.IsValid) return View(vm);
 
-        if (!ModelState.IsValid) return View(deposit);
-
-        DatabaseFake.Apply(CurrentPlayer, amount, "Deposit", "Virtual credits");
-        TempData["Success"] = $"Added {amount:N2} credits.";
+        var result = await _wallet.DepositAsync(UserId, vm.Amount);
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors) ModelState.AddModelError("", error);
+            return View(vm);
+        }
+        TempData["Success"] = $"Added {vm.Amount:N2} credits.";
         return RedirectToAction(nameof(Index));
     }
 }

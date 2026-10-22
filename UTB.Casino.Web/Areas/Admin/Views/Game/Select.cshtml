@@ -1,19 +1,16 @@
-@model IEnumerable<Game>
+@model IList<Game>
 @{ ViewData["Title"] = "Games"; }
-<h1>Games</h1>
-<table class="data">
-    <thead><tr><th>Game</th><th>Controller</th><th class="num">Min</th><th class="num">Max</th><th>Status</th><th></th></tr></thead>
+<div class="d-flex justify-content-between align-items-center"><h1>Games</h1><a class="btn btn-brass" asp-action="Create">Add game</a></div>
+<div class="table-responsive"><table class="table align-middle">
+    <thead><tr><th>Game</th><th>Type</th><th class="text-end">Min</th><th class="text-end">Max</th><th>Status</th><th></th></tr></thead>
     <tbody>
     @foreach (var g in Model)
     {
-        <tr>
-            <td>@g.Name</td>
-            <td>@g.Slug</td>
-            <td class="num">@g.MinBet.ToString("N2")</td>
-            <td class="num">@g.MaxBet.ToString("N2")</td>
+        <tr><td>@g.Name</td><td>@g.Slug</td><td class="text-end">@g.MinBet.ToString("N2")</td><td class="text-end">@g.MaxBet.ToString("N2")</td>
             <td>@(g.IsActive ? "Open" : "Closed")</td>
-            <td><a asp-action="Edit" asp-route-id="@g.Id">Edit</a></td>
-        </tr>
+            <td class="text-end"><a class="btn btn-sm btn-outline-light" asp-action="Edit" asp-route-id="@g.Id">Edit</a>
+                <form asp-action="Delete" asp-route-id="@g.Id" method="post" class="d-inline" onsubmit="return confirm('Delete this game?');">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button></form></td></tr>
     }
     </tbody>
-</table>
+</table></div>

@@ -1,18 +1,19 @@
 @model WalletViewModel
 @{ ViewData["Title"] = "Wallet"; }
 <h1>Wallet</h1>
-@if (TempData["Success"] is string ok) { <p class="notice win">@ok</p> }
-<p>Balance <strong>@Model.Player.Balance.ToString("N2")</strong> credits.</p>
-<p><a class="btn btn-primary" asp-action="Deposit">Add credits</a></p>
+<p class="fs-5">Balance <strong class="text-brass">@Model.Balance.ToString("N2")</strong> credits</p>
+<p><a class="btn btn-brass" asp-action="Deposit">Add credits</a></p>
 
-<h2>Recent activity</h2>
-<table class="data">
-    <thead><tr><th>Date</th><th>Type</th><th>Note</th><th class="num">Amount</th></tr></thead>
+<h2 class="h4 mt-4">Recent activity</h2>
+<div class="table-responsive">
+<table class="table">
+    <thead><tr><th>Date</th><th>Type</th><th>Note</th><th class="text-end">Amount</th></tr></thead>
     <tbody>
     @foreach (var t in Model.Transactions)
     {
         <tr><td>@t.CreatedAt.ToString("yyyy-MM-dd HH:mm")</td><td>@t.Type</td><td>@t.Note</td>
-            <td class="num @(t.Amount < 0 ? "neg" : "pos")">@t.Amount.ToString("+0.00;-0.00")</td></tr>
+            <td class="text-end @(t.Amount < 0 ? "text-danger" : "text-success")">@t.Amount.ToString("+0.00;-0.00")</td></tr>
     }
     </tbody>
 </table>
+</div>

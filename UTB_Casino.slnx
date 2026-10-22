@@ -1,3 +1,7 @@
 <Solution>
+  <Project Path="UTB.Casino.Application/UTB.Casino.Application.csproj" />
+  <Project Path="UTB.Casino.Domain/UTB.Casino.Domain.csproj" />
+  <Project Path="UTB.Casino.Infrastructure/UTB.Casino.Infrastructure.csproj" />
+  <Project Path="UTB.Casino.Tests/UTB.Casino.Tests.csproj" />
   <Project Path="UTB.Casino.Web/UTB.Casino.Web.csproj" />
 </Solution>

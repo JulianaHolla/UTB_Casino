@@ -1,0 +1,9 @@
+using System.Security.Cryptography;
+
+namespace UTB.Casino.Application.GameLogic;
+
+public static class RandomProvider
+{
+    /// <summary>Returns 0 .. maxExclusive-1.</summary>
+    public static int Next(int maxExclusive) => RandomNumberGenerator.GetInt32(maxExclusive);
+}

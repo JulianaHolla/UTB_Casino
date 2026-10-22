@@ -1,22 +1,24 @@
 using System.Diagnostics;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using UTB.Casino.Web.Models.Infrastructure.Database;
+using UTB.Casino.Application.Abstraction;
 using UTB.Casino.Web.Models.ViewModel;
 
 namespace UTB.Casino.Web.Controllers;
 
 public class HomeController : Controller
 {
-    public IActionResult Index()
+    private readonly IGameService _games;
+    private readonly IBetService _bets;
+
+    public HomeController(IGameService games, IBetService bets) { _games = games; _bets = bets; }
+
+    public async Task<IActionResult> Index()
     {
-        var player = DatabaseFake.CurrentPlayer;
-        return View(new IndexViewModel
-        {
-            Player = player,
-            Games = DatabaseFake.Games.Where(g => g.IsActive).ToList(),
-            RecentBets = DatabaseFake.Bets.Where(b => b.PlayerId == player.Id)
-                                          .OrderByDescending(b => b.PlacedAt).Take(5).ToList()
-        });
+        var vm = new IndexViewModel { Games = await _games.GetActiveAsync() };
+        if (User.Identity?.IsAuthenticated == true)
+            vm.RecentBets = await _bets.GetUserBetsAsync(User.FindFirstValue(ClaimTypes.NameIdentifier)!, 5);
+        return View(vm);
     }
 
     public IActionResult Privacy() => View();
