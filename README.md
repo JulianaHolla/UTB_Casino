@@ -12,3 +12,4 @@ Notes:
 - Data lives in memory (`DatabaseFake`) and resets on restart.
 - There is no login: the first seeded player ("demo") is the current player.
 - Requires the .NET 10 SDK. For an older SDK change `TargetFramework` in the .csproj.
+- yo yo yo
