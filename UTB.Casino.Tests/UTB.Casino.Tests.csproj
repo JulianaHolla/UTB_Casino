@@ -17,4 +17,7 @@
     <ProjectReference Include="../UTB.Casino.Application/UTB.Casino.Application.csproj" />
     <ProjectReference Include="../UTB.Casino.Domain/UTB.Casino.Domain.csproj" />
   </ItemGroup>
+	<ItemGroup>
+		<Using Include="Xunit" />
+	</ItemGroup>
 </Project>
