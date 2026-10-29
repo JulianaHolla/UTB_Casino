@@ -5,7 +5,7 @@ Semestrální projekt do předmětu **Pokročilé webové technologie**.
 ## 👥 Členové týmu a poměr práce
 | Jméno a příjmení | Role v týmu | Poměr práce |
 |:---|:---|:---:|
-| **Juliana Hollá** | Vedoucí | 1 |
+| **Juliana Hollá** | Spoluvedoucí | 1 |
 | **Vojtěch Siuda** | Spoluvedoucí | 1 |
 
 ---
