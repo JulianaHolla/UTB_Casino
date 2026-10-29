@@ -11,7 +11,7 @@ using UTB.Casino.Web.Areas.Admin.Models;
 
 namespace UTB.Casino.Tests;
 
-/// <summary>Admin GameController tests: the controller talks to the database through IGameService (mocked here).</summary>
+/// Admin GameController tests: the controller talks to the database through IGameService (mocked here).
 public class GameControllerTests
 {
     private readonly Mock<IGameService> _service = new();

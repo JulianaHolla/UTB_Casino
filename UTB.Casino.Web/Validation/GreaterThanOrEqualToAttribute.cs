@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace UTB.Casino.Web.Validation;
 
-/// <summary>Own validation attribute: value must not be lower than another property (e.g. MaxBet >= MinBet).</summary>
+//Own validation attribute: value must not be lower than another property (e.g. MaxBet >= MinBet)
 [AttributeUsage(AttributeTargets.Property)]
 public class GreaterThanOrEqualToAttribute : ValidationAttribute, IClientModelValidator
 {

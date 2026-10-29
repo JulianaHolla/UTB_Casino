@@ -61,7 +61,7 @@ public static class BlackjackEngine
                     : RoundState.DealerWin;
     }
 
-    /// <summary>Total returned to the player, stake included.</summary>
+    //Total returned to the player, stake include
     public static decimal Payout(BlackjackRound round) => round.State switch
     {
         RoundState.PlayerBlackjack => round.Bet * 2.5m,

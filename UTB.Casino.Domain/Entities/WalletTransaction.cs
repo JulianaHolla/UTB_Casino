@@ -7,7 +7,7 @@ public class WalletTransaction
     public int Id { get; set; }
     public string UserId { get; set; } = "";
     public int? BetId { get; set; }
-    /// <summary>Signed: negative = credits out, positive = credits in.</summary>
+    //Signed: negative = credits out, positive = credits in
     public decimal Amount { get; set; }
     public TransactionType Type { get; set; }
     public string Note { get; set; } = "";

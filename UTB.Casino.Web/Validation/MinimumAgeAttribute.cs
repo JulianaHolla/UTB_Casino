@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace UTB.Casino.Web.Validation;
 
-/// <summary>Own validation attribute: the date of birth must be at least N years ago (server + client side).</summary>
+// Own validation attribute: the date of birth must be at least N years ago (server + client side)
 [AttributeUsage(AttributeTargets.Property)]
 public class MinimumAgeAttribute : ValidationAttribute, IClientModelValidator
 {
