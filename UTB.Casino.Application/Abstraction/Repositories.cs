@@ -35,7 +35,7 @@ public interface IUserRepository
     Task<IList<ApplicationUser>> GetAllAsync();
 }
 
-/// <summary>Commits all repository changes made through one DbContext as one unit.</summary>
+//Commits all repository changes made through one DbContext as one unit
 public interface IUnitOfWork
 {
     Task<int> SaveChangesAsync();
@@ -44,7 +44,7 @@ public interface IUnitOfWork
 
 public interface IFileStorage
 {
-    /// <summary>Stores an image and returns its public relative path (e.g. /uploads/abc.png).</summary>
+    //Stores an image and returns its public relative path
     Task<string> SaveImageAsync(Stream content, string extension);
     void Delete(string? relativePath);
 }

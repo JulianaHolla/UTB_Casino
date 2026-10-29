@@ -6,7 +6,7 @@ public class Bet
     public string UserId { get; set; } = "";
     public int GameId { get; set; }
     public decimal Amount { get; set; }
-    /// <summary>Total returned to the player (stake included). 0 = lost.</summary>
+    //Total returned to the player (stake included). 0 = lost
     public decimal Payout { get; set; }
     public string Result { get; set; } = "";
     public DateTime PlacedAt { get; set; } = DateTime.UtcNow;
